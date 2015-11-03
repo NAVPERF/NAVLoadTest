@@ -19,6 +19,7 @@ namespace Microsoft.Dynamics.Nav.TestUtilities
         public string TenantId { get; private set; }
         public string Company { get; private set; }
         public int? RoleCenterId { get; private set; }
+        public string UICulture { get; private set; }
         /// <summary>
         /// 
         /// </summary>
@@ -26,12 +27,13 @@ namespace Microsoft.Dynamics.Nav.TestUtilities
         /// <param name="tenantId">Tenant</param>
         /// <param name="companyName">Company</param>
         /// <param name="roleCenterId">Role Center to use for the users</param>
-        public UserContextManager(string navServerUrl, string tenantId, string companyName, int? roleCenterId)
+        public UserContextManager(string navServerUrl, string tenantId, string companyName, int? roleCenterId, string uiCulture = null)
         {
             this.UserContextPool = new ConcurrentDictionary<int, UserContext>();
             NAVServerUrl = navServerUrl;
             this.TenantId = tenantId;
             this.Company = companyName;
+            this.UICulture = uiCulture;
             RoleCenterId = roleCenterId;
         }
 
@@ -57,7 +59,7 @@ namespace Microsoft.Dynamics.Nav.TestUtilities
 
                 using (new TestTransaction(testContext, "OpenSession"))
                 {
-                    userContext.OpenSession();
+                    userContext.OpenSession(UICulture);
                 }
 
                 if (RoleCenterId.HasValue)

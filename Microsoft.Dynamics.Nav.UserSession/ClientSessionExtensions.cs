@@ -29,9 +29,11 @@ namespace Microsoft.Dynamics.Nav.UserSession
 
         /// <summary>Opens the session synchronously.</summary>
         /// <param name="clientSession">The client Session.</param>
-        public static void OpenSession(this ClientSession clientSession)
+        public static void OpenSession(this ClientSession clientSession, string uiCulture = null)
         {
-            var sessionParameters = new ClientSessionParameters {CultureId = CultureInfo.CurrentCulture.Name};
+            var sessionParameters = new ClientSessionParameters { CultureId = CultureInfo.CurrentCulture.Name };
+            if (uiCulture != null)
+                sessionParameters.UICultureId = CultureInfo.GetCultureInfoByIetfLanguageTag(uiCulture).Name;
             sessionParameters.AdditionalSettings.Add("IncludeControlIdentifier", true);
             clientSession.AwaitReady(() => clientSession.OpenSessionAsync(sessionParameters));
         }
@@ -244,7 +246,7 @@ namespace Microsoft.Dynamics.Nav.UserSession
 
             switch (authentication)
             {
-                case AuthenticationScheme.Ntlm:
+               case AuthenticationScheme.Ntlm:
                     binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Ntlm;
                     binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
                     clientServiceClient.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;

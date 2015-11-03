@@ -36,7 +36,8 @@ namespace Microsoft.Dynamics.Nav.LoadTest
                     NAVClientService,
                     null,
                     null,
-                    OrderProcessorRoleCenterId);
+                    OrderProcessorRoleCenterId,
+                    UICulture);
 
             // to use NAV User Password authentication for multiple users uncomment the following
             // orderProcessorUserContextManager = new NAVUserContextManager(
@@ -71,6 +72,14 @@ namespace Microsoft.Dynamics.Nav.LoadTest
             get
             {
                 return Settings.Default.NAVClientService;
+            }
+        }
+
+        public string UICulture
+        {
+            get
+            {
+                return Settings.Default.UICulture;
             }
         }
 

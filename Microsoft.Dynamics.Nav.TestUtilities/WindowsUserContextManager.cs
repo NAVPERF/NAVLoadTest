@@ -18,8 +18,8 @@ namespace Microsoft.Dynamics.Nav.TestUtilities
         /// <param name="tenantId">Tenant</param>
         /// <param name="companyName">Company</param>
         /// <param name="roleCenterId">Role Center to use for the users</param>
-        public WindowsUserContextManager(string navServerUrl, string tenantId, string companyName, int? roleCenterId)
-            : base(navServerUrl, tenantId, companyName, roleCenterId){}
+        public WindowsUserContextManager(string navServerUrl, string tenantId, string companyName, int? roleCenterId, string uiCulture = null)
+            : base(navServerUrl, tenantId, companyName, roleCenterId, uiCulture){}
 
 
         protected override UserContext CreateUserContext(TestContext testContext)
