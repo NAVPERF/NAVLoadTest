@@ -32,6 +32,7 @@ namespace Microsoft.Dynamics.Nav.TestUtilities
             catch (Exception)
             {
                 // if error occurs we close the session and don't return to the pool
+                userContext.WaitForReady();
                 CloseSession(userContext, testContext);
                 throw;
             }

@@ -53,7 +53,7 @@ namespace Microsoft.Dynamics.Nav.UserSession
                 rootForm.Session.InvokeInteraction(
                     new InvokeActionInteraction(control, SystemAction.Lookup)));
         }
-
+        
         /// <summary>Save a value for the control.</summary>
         /// <param name="control">The control.</param>
         /// <param name="newValue">The new Value.</param>
@@ -85,7 +85,10 @@ namespace Microsoft.Dynamics.Nav.UserSession
         {
             try
             {
-                return control.ContainedControls.OfType<ClientActionControl>().First(c => c.Caption.Replace("&", "").EndsWith(actionCaption));
+                return control
+                    .ContainedControls
+                    .OfType<ClientActionControl>()
+                    .First(c => c.HasCaption(actionCaption));
             }
             catch (InvalidOperationException exception)
             {
@@ -107,13 +110,20 @@ namespace Microsoft.Dynamics.Nav.UserSession
         {
             try
             {
-                return control.ContainedControls.First(c => c.Caption.Replace("&", "").EndsWith(controlCaption));
+                return control
+                    .ContainedControls
+                    .First(c => c.HasCaption(controlCaption));
             }
             catch (InvalidOperationException exception)
             {
                 control.WriteControlCaptions<ClientLogicalControl>();
                 throw new ArgumentOutOfRangeException(string.Format("Could not find a control with caption {0}",controlCaption), exception);
             }
+        }
+
+        private static bool HasCaption(this ClientLogicalControl control, string caption)
+        {
+            return control.Caption.Replace("&", "").Equals(caption);
         }
     }
 }
